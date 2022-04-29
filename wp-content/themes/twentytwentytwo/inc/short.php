@@ -4,6 +4,8 @@ function HelloWorldShortcode() {
 	return '<p>Hello World!</p>';
 }
 add_shortcode('helloworld', 'HelloWorldShortcode');
+
+
 function HelloWorldShortcode1() {
  
 	// The Query
