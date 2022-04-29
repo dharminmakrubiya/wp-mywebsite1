@@ -156,6 +156,10 @@ require get_template_directory() . '/inc/block-patterns.php';
 
 require get_template_directory() . '/inc/short.php';
 
+//require get_template_directory() . '/inc/custom_query.php';
+
+
+
 //Create a Wordpress Page Using Qurey
 
 /*add_action('init', 'njengah_create_wordpress_page_programmatically'); 
