@@ -210,23 +210,112 @@ add_shortcode('sitemap', 'GenerateSitemap'); */
 
 
 
+//Create a post type.
+add_action( 'init', 'create_post_type' );
+function create_post_type() {
+    register_post_type( 'Adverts',
+        array(
+            'labels' => array(
+                'name' => __( 'Adverts' ),
+                'singular_name' => __( 'Advert'),
+                'add_new' => __( 'Add New' ),
+                'add_new_item' => __( 'Add a New Advert' ),
+                'edit' => __( 'Edit' ),
+                'edit_item' => __( 'Edit Advert' ),
+                'new_item' => __( 'New Advert' ),
+                'view' => __( 'View' ),
+                'view_item' => __( 'View Advert' ),
+                'search_items' => __( 'Search Adverts' ),
+                'not_found' => __( 'No Adverts found' ),
+                'not_found_in_trash' => __( 'No Adverts found in Trash' ),
+            ),
+            'supports' => array(
+                'title',
+                'thumbnail',
+            ),
+            'has_archive' => true,
+            'menu_position' => 10,
+            'public' => true,
+            'rewrite' => array( 
+                'slug' => 'adverts' 
+            ),
+            'taxonomies' => array('advert_tag')
+        )
+    );
+}
 
 
 
+//Create a Custom Taxonomies
+add_action( 'init', 'create_subjects_hierarchical_taxonomy', 0 );
+ 
+ 
+function create_subjects_hierarchical_taxonomy() {
 
+ 
+  $labels = array(
+    'name' => _x( 'Subjects', 'taxonomy general name' ),
+    'singular_name' => _x( 'Subject', 'taxonomy singular name' ),
+    'search_items' =>  __( 'Search Subjects' ),
+    'all_items' => __( 'All Subjects' ),
+    'parent_item' => __( 'Parent Subject' ),
+    'parent_item_colon' => __( 'Parent Subject:' ),
+    'edit_item' => __( 'Edit Subject' ), 
+    'update_item' => __( 'Update Subject' ),
+    'add_new_item' => __( 'Add New Subject' ),
+    'new_item_name' => __( 'New Subject Name' ),
+    'menu_name' => __( 'Subjects' ),
+  );    
+ 
+// Now register the taxonomy
+  register_taxonomy('subjects',array('books'), array(
+    'hierarchical' => true,
+    'labels' => $labels,
+    'show_ui' => true,
+    'show_in_rest' => true,
+    'show_admin_column' => true,
+    'query_var' => true,
+    'rewrite' => array( 'slug' => 'subject' ),
+  ));
+ 
+}
 
+//hook into the init action and call create_topics_nonhierarchical_taxonomy when it fires
+ 
+add_action( 'init', 'create_topics_nonhierarchical_taxonomy', 0 );
+ 
+function create_topics_nonhierarchical_taxonomy() {
 
-
-
-
-
-
-
-
-
-
-
-
+  
+  $labels = array(
+    'name' => _x( 'Topics', 'taxonomy general name' ),
+    'singular_name' => _x( 'Topic', 'taxonomy singular name' ),
+    'search_items' =>  __( 'Search Topics' ),
+    'popular_items' => __( 'Popular Topics' ),
+    'all_items' => __( 'All Topics' ),
+    'parent_item' => null,
+    'parent_item_colon' => null,
+    'edit_item' => __( 'Edit Topic' ), 
+    'update_item' => __( 'Update Topic' ),
+    'add_new_item' => __( 'Add New Topic' ),
+    'new_item_name' => __( 'New Topic Name' ),
+    'separate_items_with_commas' => __( 'Separate topics with commas' ),
+    'add_or_remove_items' => __( 'Add or remove topics' ),
+    'choose_from_most_used' => __( 'Choose from the most used topics' ),
+    'menu_name' => __( 'Topics' ),
+  ); 
+  
+  register_taxonomy('topics','books',array(
+    'hierarchical' => false,
+    'labels' => $labels,
+    'show_ui' => true,
+    'show_in_rest' => true,
+    'show_admin_column' => true,
+    'update_count_callback' => '_update_post_term_count',
+    'query_var' => true,
+    'rewrite' => array( 'slug' => 'topic' ),
+  ));
+}
 
 
 
