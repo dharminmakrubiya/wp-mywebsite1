@@ -319,3 +319,97 @@ function create_topics_nonhierarchical_taxonomy() {
 
 
 
+//Pagination Query
+
+// Numbered Pagination
+// if ( !function_exists( 'wpex_pagination' ) ) {
+	
+// 	function wpex_pagination() {
+		
+// 		$prev_arrow = is_rtl() ? '→' : '←';
+// 		$next_arrow = is_rtl() ? '←' : '→';
+		
+// 		global $wp_query;
+// 		$total = $wp_query->max_num_pages;
+// 		$big = 999999999; // need an unlikely integer
+// 		if( $total > 1 )  {
+// 			 if( !$current_page = get_query_var('paged') )
+// 				 $current_page = 1;
+// 			 if( get_option('permalink_structure') ) {
+// 				 $format = 'page/%#%/';
+// 			 } else {
+// 				 $format = '&paged=%#%';
+// 			 }
+// 			echo paginate_links(array(
+// 				'base'			=> str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+// 				'format'		=> $format,
+// 				'current'		=> max( 1, get_query_var('paged') ),
+// 				'total' 		=> $total,
+// 				'mid_size'		=> 3,
+// 				'type' 			=> 'list',
+// 				'prev_text'		=> $prev_arrow,
+// 				'next_text'		=> $next_arrow,
+// 			 ) );
+// 		}
+// 	}
+	
+// }
+if( ! function_exists( 'misha_paginate_links' ) ) {
+	function misha_paginate_links( $query ) {  
+
+		$search_page_url = 'YOUR_SEARH_PAGE_URL'; // please fill this parameter
+		
+
+		$args = array(
+			'total' => $query->max_num_pages, // total amount of pages
+			'current' => ( ( $query->query_vars[ 'paged' ] ) ? $query->query_vars[ 'paged' ] : 1 ), // current page number
+			'show_all' => false, // set to true if you want to show all pages at once
+			'mid_size' => 2, // how much page numbers to show on the each side of the current page
+			'end_size' => 2, // how much page numbers to show at the beginning and at the end of the list
+			'prev_next' => true, // if you set this to false, the previous and the next post links will be removed
+			'prev_text' => '&laquo;', // «
+			'next_text' => '&raquo;', // »
+			'base' => $search_page_url . '%_%',
+			'format' => '?current_page=%#%'
+		);
+	 
+		if( $args[ 'total' ] <= 1 ) { // do not return anything if there are not enough posts
+			return;
+		}
+		
+		return '<div class="navigation">
+			<span class="pages">Page ' . $args[ 'current' ] . ' of ' . $args[ 'total' ] . '</span>'
+			. paginate_links( $args ) .  
+			'</div>';   
+	 
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
