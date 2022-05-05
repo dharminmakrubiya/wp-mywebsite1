@@ -382,6 +382,8 @@ if( ! function_exists( 'misha_paginate_links' ) ) {
 			. paginate_links( $args ) .  
 			'</div>';   
 	 
+
+	 
 	}
 }
 
